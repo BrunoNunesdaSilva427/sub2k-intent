@@ -30,7 +30,6 @@
 char inputBuffer[SERIAL_BUF_SIZE];
 uint8_t inputLen = 0;
 
-// ---------- hashing (espelha fnv1a() do generate_table.py) ----------
 
 uint32_t fnv1a(const char* word, uint8_t len) {
   uint32_t h = 2166136261UL;
@@ -165,9 +164,7 @@ void loop() {
 }
 
 void processInput(const char* text) {
-  // rejeita frases curtas demais antes de gastar CPU calculando o embedding:
-  // poucos caracteres geram poucos trigramas, e vetores esparsos colidem
-  // por acaso com linhas da tabela (ex.: "olá" batendo em LUZ_DESLIGAR).
+
   uint8_t textLen = strlen(text);
   if (textLen < MIN_INPUT_LENGTH) {
     Serial.print(F("> \""));
