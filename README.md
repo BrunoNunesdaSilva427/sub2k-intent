@@ -20,6 +20,30 @@ Este projeto mostra que dá pra fazer isso com uma técnica muito mais antiga e 
 
 Nenhum float em nenhum momento no Arduino. Tudo em `int8`/`int16`/`int32`.
 
+## Por que não simplesmente usar `if/else` ou `switch-case`?
+
+É uma pergunta justa, e a resposta honesta é: **depende da escala.**
+
+Com `if/else` e `strstr()`, cada variação de frase precisa ser escrita manualmente:
+
+```cpp
+if (strstr(text, "liga a luz") || strstr(text, "ligue a luz") ||
+    strstr(text, "acende a luz") || strstr(text, "acenda a luz") ||
+    strstr(text, "liga a lampada") || ...) {
+  // LUZ_LIGAR
+}
+```
+
+Isso funciona, mas **não generaliza**: se o usuário digitar algo que você não previu - um erro de digitação, uma flexão verbal diferente, uma ordem de palavras diferente - a frase simplesmente não bate em nenhum `strstr` e falha silenciosamente. Cada variação nova exige escrever (e revisar) mais uma condição no código.
+
+A vantagem do hashing por trigramas é tolerar essas variações **sem precisar prever cada uma manualmente** - é por isso que "liga o vetilador" (com erro de digitação) ainda é reconhecido corretamente: a maioria dos trigramas da palavra continua batendo mesmo com a letra trocada.
+
+**Mas essa vantagem só compensa em escala.** Com 5 comandos e 47 frases, como neste projeto, escrever um `if/else` com `strstr` pra cada variação seria totalmente viável - e, na prática, mais previsível (se você testar o repositório, vai notar que frases curtas e genéricas como "olá" às vezes geram falsos positivos por colisão estatística de hash, algo que um `if/else` explícito nunca faria).
+
+A vantagem real do método aparece quando o vocabulário cresce: com **50+ comandos e dezenas de frases cada**, manter um `if/else` gigante fica inviável de escrever, revisar e manter. Nesse cenário, adicionar um comando novo vira só uma questão de **adicionar dados** (uma entrada no `commands.json` + regenerar a tabela) em vez de **escrever lógica nova** - e é isso que este projeto demonstra: uma forma de escalar o vocabulário de comandos sem escalar o código, mesmo em 2KB de RAM.
+
+Em resumo: pra poucos comandos fixos, `if/else`/`strstr` continua sendo a opção mais simples e confiável. Este projeto é um ponto de partida pra quando esse número cresce - ou pra quem quer estudar/adaptar a técnica pra outros vocabulários.
+
 ## Números reais
 
 | Métrica | Valor |
@@ -45,7 +69,7 @@ bom dia                                 -> rejeitado corretamente ✅
 oi tudo bem                             -> STATUS (falso positivo) ❌
 ```
 
-**Limitação honesta:** o hashing por trigramas generaliza bem pra typos e variações morfológicas, mas ocasionalmente gera falsos positivos em frases curtas e genéricas por colisão estatística de hash. Isso é um limite estrutural do método com vocabulário pequeno - não um bug. Mitigação possível: aumentar a dimensão do vetor, ou adicionar uma classe explícita de "não-comando" com frases de exemplo negativas.
+**Limitação honesta:** o hashing por trigramas generaliza bem pra typos e variações morfológicas, mas ocasionalmente gera falsos positivos em frases curtas e genéricas por colisão estatística de hash. Isso é um limite estrutural do método com vocabulário pequeno - não um bug. Mitigação possível: aumentar a dimensão do vetor, adicionar uma classe explícita de "não-comando" com frases de exemplo negativas, ou rejeitar frases com poucos trigramas antes mesmo de calcular o score.
 
 ## Estrutura do projeto
 
