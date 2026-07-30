@@ -53,7 +53,7 @@ Em resumo: pra poucos comandos fixos, `if/else`/`strstr` continua sendo a opçã
 | Dimensões do vetor | 32 |
 | Tabela de referência em flash | **1.51 KB** |
 | RAM usada em runtime | dezenas de bytes (buffers temporários) |
-| Acurácia no conjunto de teste (17 frases, incluindo fora de domínio) | **15/17 (88%)** |
+| Acurácia no conjunto de teste (19 frases, incluindo fora de domínio) | **17/19 (89%)** |
 
 ## Onde funciona bem e onde quebra
 
@@ -66,10 +66,16 @@ apague a luz                            -> LUZ_DESLIGAR           ✅ (flexão v
 liga o vetilador  (com erro de digitação) -> VENTILADOR_LIGAR      ✅ (trigramas toleram o typo)
 vai chover hoje                         -> rejeitado corretamente ✅
 bom dia                                 -> rejeitado corretamente ✅
+olá                                     -> rejeitado (frase muito curta) ✅
+oi                                      -> rejeitado (frase muito curta) ✅
 oi tudo bem                             -> STATUS (falso positivo) ❌
 ```
 
-**Limitação honesta:** o hashing por trigramas generaliza bem pra typos e variações morfológicas, mas ocasionalmente gera falsos positivos em frases curtas e genéricas por colisão estatística de hash. Isso é um limite estrutural do método com vocabulário pequeno - não um bug. Mitigação possível: aumentar a dimensão do vetor, adicionar uma classe explícita de "não-comando" com frases de exemplo negativas, ou rejeitar frases com poucos trigramas antes mesmo de calcular o score.
+**Limitação honesta:** o hashing por trigramas generaliza bem pra typos e variações morfológicas, mas ocasionalmente gera falsos positivos em frases curtas e genéricas por colisão estatística de hash. Isso é um limite estrutural do método com vocabulário pequeno - não um bug.
+
+**Mitigação já implementada:** frases com menos de `MIN_INPUT_LENGTH` caracteres (6, por padrão) são rejeitadas *antes* de qualquer cálculo de embedding, tanto no `command_matcher.ino` quanto no `simulate.py` (a mesma regra precisa existir nos dois lados, igual acontece com o algoritmo de hashing). Essa checagem é praticamente grátis no Arduino - só um `strlen()` - e evita justamente o caso de "olá" bater por acaso em algum comando cadastrado, sem precisar aumentar a dimensão do vetor ou mexer no threshold.
+
+Isso não resolve todo tipo de falso positivo: uma frase mais longa e genérica, tipo "oi tudo bem", ainda pode colidir por ter trigramas suficientes pra "parecer" um comando válido. Pra esses casos, a mitigação ainda pendente é adicionar uma classe explícita de "não-comando" com frases de exemplo negativas no `commands.json`, ou aumentar a dimensão do vetor.
 
 ## Estrutura do projeto
 
@@ -102,6 +108,8 @@ python3 simulate.py
 ```
 
 **4. Abra `command_matcher/command_matcher.ino` no Arduino IDE**, grave no Uno, abra o Serial Monitor (9600 baud) e digite frases.
+
+> **Nota:** frases com menos de `MIN_INPUT_LENGTH` caracteres (6 por padrão, definido no topo do `.ino` e do `simulate.py`) são rejeitadas antes mesmo de calcular o embedding. Se seu vocabulário tiver comandos legitimamente curtos, ajuste essa constante nos dois arquivos.
 
 ## Requisitos
 
