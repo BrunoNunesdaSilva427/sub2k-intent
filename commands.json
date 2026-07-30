@@ -1,0 +1,82 @@
+{
+  "_comment": "Cada comando tem um id, um nome, e várias frases de exemplo (quanto mais variações, mais robusto o matching).",
+  "commands": [
+    {
+      "id": 0,
+      "name": "LUZ_LIGAR",
+      "phrases": [
+        "liga a luz",
+        "ligue a luz",
+        "acende a luz",
+        "acenda a luz",
+        "liga a lampada",
+        "ligue a lampada",
+        "acende a lampada",
+        "acenda a lampada",
+        "liga luz da sala",
+        "por favor acenda a luz",
+        "quero a luz ligada",
+        "quero a luz acesa"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "LUZ_DESLIGAR",
+      "phrases": [
+        "desliga a luz",
+        "desligue a luz",
+        "apaga a luz",
+        "apague a luz",
+        "desliga a lampada",
+        "desligue a lampada",
+        "apaga a lampada",
+        "apague a lampada",
+        "desliga luz da sala",
+        "por favor apague a luz",
+        "quero a luz desligada",
+        "quero a luz apagada"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "VENTILADOR_LIGAR",
+      "phrases": [
+        "liga o ventilador",
+        "ligue o ventilador",
+        "liga ventilador",
+        "acende o ventilador",
+        "acenda o ventilador",
+        "quero o ventilador ligado",
+        "por favor ligue o ventilador"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "VENTILADOR_DESLIGAR",
+      "phrases": [
+        "desliga o ventilador",
+        "desligue o ventilador",
+        "desliga ventilador",
+        "apaga o ventilador",
+        "apague o ventilador",
+        "quero o ventilador desligado",
+        "por favor desligue o ventilador"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "STATUS",
+      "phrases": [
+        "qual o status",
+        "qual e o status",
+        "como esta o sistema",
+        "me diz o status",
+        "me informe o status",
+        "status atual",
+        "tudo bem com o sistema",
+        "verifica o status",
+        "verifique o status"
+      ]
+    }
+  ]
+}
