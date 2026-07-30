@@ -66,6 +66,14 @@ void hashTrigramsOfWord(const char* word, uint8_t wlen, int16_t* acc) {
   }
 }
 
+bool isWordChar(char c) {
+  if (c >= 'a' && c <= 'z') return true;
+  if (c >= 'A' && c <= 'Z') return true;
+  if (c >= '0' && c <= '9') return true;
+  if ((uint8_t)c >= 0x80) return true;
+  return false;
+}
+
 void embedText(const char* text, int8_t* outVec) {
   int16_t acc[EMBED_DIM];
   for (uint8_t i = 0; i < EMBED_DIM; i++) acc[i] = 0;
@@ -75,7 +83,7 @@ void embedText(const char* text, int8_t* outVec) {
 
   for (uint8_t i = 0; ; i++) {
     char c = text[i];
-    bool isSep = (c == ' ' || c == '\0');
+    bool isSep = !isWordChar(c);
     if (!isSep && wlen < sizeof(word) - 1) {
       if (c >= 'A' && c <= 'Z') c = c - 'A' + 'a';
       word[wlen++] = c;
