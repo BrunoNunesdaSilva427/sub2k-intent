@@ -1,6 +1,6 @@
 # sub2k-intent
 
-**Casamento semântico de comandos rodando 100% offline num Arduino Uno - em menos de 2KB de RAM, sem ponto flutuante.**
+**Correspondência semântica de comandos rodando 100% offline num Arduino Uno - em menos de 2KB de RAM, sem ponto flutuante.**
 
 Nenhum LLM, nenhuma rede neural, nenhuma conexão com a nuvem. Um ATmega328P de 2005 reconhecendo variações de linguagem natural ("liga a luz" / "acenda a lâmpada" / "por favor ligue a luz") com aritmética inteira pura.
 
