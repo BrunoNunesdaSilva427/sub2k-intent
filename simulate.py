@@ -6,7 +6,6 @@ Simula exatamente a lógica do command_matcher.ino em Python, pra validar
 o matching e calibrar o threshold antes de gravar no Arduino de verdade.
 
 Autor: Bruno Nunes da Silva (criador do DevSoft JARVIS AI)
-Produto: https://devsoft-ai.webnode.page/
 """
 
 import json
