@@ -14,8 +14,8 @@ import sys
 from generate_table import fnv1a, normalize_text, word_trigrams, DIM
 
 CONFIDENCE_THRESHOLD = 40
-MIN_INPUT_LENGTH = 6  # frases mais curtas que isso são rejeitadas antes do matching
-                       # (mesma regra do command_matcher.ino — manter sincronizado)
+MIN_INPUT_LENGTH = 6  
+                       
 
 
 def embed_int(text):
@@ -68,9 +68,6 @@ def match(vec, rows, threshold):
 
 
 def classify(text, rows, threshold):
-    """Espelha processInput() do .ino: rejeita frases curtas demais antes
-    de calcular o embedding, pra evitar falsos positivos por colisão
-    estatística de hash em vetores esparsos (ex.: "olá" -> LUZ_DESLIGAR)."""
     if len(text) < MIN_INPUT_LENGTH:
         return None, 0, "muito curta"
     vec = embed_int(text)
@@ -78,7 +75,7 @@ def classify(text, rows, threshold):
     return cid, score, None
 
 
-# (frase, comando_esperado_ou_None_se_deve_rejeitar)
+
 TEST_CASES = [
     ("liga a luz", "LUZ_LIGAR"),
     ("acende a luz da sala", "LUZ_LIGAR"),
@@ -88,7 +85,7 @@ TEST_CASES = [
     ("apague a luz", "LUZ_DESLIGAR"),
     ("pode apagar a luz", "LUZ_DESLIGAR"),
     ("liga o ventilador", "VENTILADOR_LIGAR"),
-    ("liga o vetilador", "VENTILADOR_LIGAR"),  # com erro de digitação
+    ("liga o vetilador", "VENTILADOR_LIGAR"),  
     ("desliga ventilador agora", "VENTILADOR_DESLIGAR"),
     ("qual o status do sistema", "STATUS"),
     ("como que ta o sistema", "STATUS"),
@@ -97,8 +94,8 @@ TEST_CASES = [
     ("qual seu nome", None),
     ("bom dia", None),
     ("obrigado", None),
-    ("olá", None),  # frase curta demais — testado manualmente no hardware, dava falso positivo
-    ("oi", None),   # idem
+    ("olá", None),  
+    ("oi", None),   
 ]
 
 
