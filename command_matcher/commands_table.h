@@ -1,7 +1,4 @@
-// Arquivo gerado automaticamente por generate_table.py — não editar à mão.
-// Projeto: sub2k-intent
-// Autor: Bruno Nunes da Silva (criador do DevSoft JARVIS AI)
-// DIM=32  linhas=47  comandos=5
+
 #pragma once
 #include <avr/pgmspace.h>
 
