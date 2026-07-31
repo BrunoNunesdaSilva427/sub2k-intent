@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""
-sub2k-intent — simulate.py
 
-Simula exatamente a lógica do command_matcher.ino em Python, pra validar
-o matching e calibrar o threshold antes de gravar no Arduino de verdade.
-
-Autor: Bruno Nunes da Silva (criador do DevSoft JARVIS AI)
-"""
 
 import json
 import sys
