@@ -1,31 +1,15 @@
-/*
- * sub2k-intent — command_matcher.ino
- *
- * Casamento de comandos por similaridade semântica aproximada,
- * rodando 100% offline num Arduino Uno (ATmega328P, 2KB RAM).
- *
- * Autor: Bruno Nunes da Silva (criador do DevSoft JARVIS AI)
- *
- * - Sem ponto flutuante (tudo em int16/int32 pra acumulação segura)
- * - Tabela de referência inteira em flash (PROGMEM), nada na RAM
- * - Hashing por trigramas de caracteres (tolera typos e flexões verbais)
- * - Mesmo algoritmo de hashing do generate_table.py — se mudar um lado,
- *   muda o outro.
- *
- * Uso: manda uma frase pelo Serial Monitor (baud 9600) e ele responde
- * com o comando reconhecido + score de confiança.
- */
+
 
 #include <avr/pgmspace.h>
 #include <string.h>
 #include "commands_table.h"
 
 #define SERIAL_BUF_SIZE 64
-#define CONFIDENCE_THRESHOLD 60  // calibrado via simulate.py (trigramas, 15/17 no teste)
-#define MIN_INPUT_LENGTH 6       // frases mais curtas que isso são rejeitadas antes do matching
-                                 // (a frase válida mais curta em commands.json tem 10 caracteres;
-                                 //  frases curtas geram poucos trigramas e colidem por acaso na tabela,
-                                 //  ex.: "olá" -> falso positivo. Ver simulate.py, mesma regra.)
+#define CONFIDENCE_THRESHOLD 60  
+#define MIN_INPUT_LENGTH 6       
+                                 
+                                
+                                 
 
 char inputBuffer[SERIAL_BUF_SIZE];
 uint8_t inputLen = 0;
