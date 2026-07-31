@@ -1,21 +1,4 @@
 #!/usr/bin/env python3
-"""
-sub2k-intent — generate_table.py
-
-Gera a tabela de referência (embeddings via hashing de trigramas de
-caracteres, quantizados em int8) para casamento de intenção offline no
-Arduino Uno (ATmega328P), usando menos de 2KB de RAM.
-
-Autor: Bruno Nunes da Silva (criador do DevSoft JARVIS AI)
-
-Uso:
-    python3 generate_table.py commands.json > command_matcher/commands_table.h
-
-O mesmo algoritmo de hashing (FNV-1a + trigramas com padding + assinatura
-por bit) é reimplementado em C++ no sketch do Arduino, então os dois lados
-PRECISAM ficar sincronizados. Se você mudar DIM ou a função de hash aqui,
-replique no .ino também.
-"""
 
 import json
 import sys
